@@ -4,7 +4,7 @@
 
 A spin-5/2 density matrix is a positive semidefinite $6\times6$ Hermitian matrix of trace one. In the symmetric five-qubit representation, $t$-anticoherence means that its $t$-qubit reduced state is $I_{t+1}/(t+1)$. Equivalently, its irreducible multipoles of ranks $1,\ldots,t$ vanish. The relationship between anticoherence and symmetric reductions is developed in [Baguette and Martin (2017)](https://doi.org/10.1103/PhysRevA.96.032304); the accompanying manuscript gives the mixed-state setting.
 
-The feasible set is convex, but the objective $P=\operatorname{Tr}\rho^2$ is also convex and is **maximized**. The original problem therefore is not a convex semidefinite minimization problem. Finding a feasible state of purity $P_*$ supplies a lower bound on the maximum, even if many local searches return that same state. A global result requires a second argument: $P\le P_*$ for every feasible state.
+The feasible set is convex, but the objective $P=\mathrm{Tr}\rho^2$ is also convex and is **maximized**. The original problem therefore is not a convex semidefinite minimization problem. Finding a feasible state of purity $P_*$ supplies a lower bound on the maximum, even if many local searches return that same state. A global result requires a second argument: $P\le P_*$ for every feasible state.
 
 This repository supplies both parts. `verify_optimizers.py` checks attaining density matrices exactly. The three proof scripts express the difference between a proposed upper bound and the purity as nonnegative quantities. Their identities apply to arbitrary feasible states, so no search over ranks or eigenbases remains.
 
@@ -26,7 +26,7 @@ For a 2-AC state the remaining multipoles have ranks 3, 4, and 5. Form a feature
 
 A matrix of the form $F\rho F^\dagger$ is positive semidefinite whenever $\rho\succeq0$. This is the core of the localizing construction: multiply the physical positivity constraint by polynomial features without losing its sign. Rotation and time-reversal averages give positive matrices $G_J(\rho)$. The certificate is
 
-$$\frac{13}{18}-P=\sum_{J=1/2}^{17/2}\operatorname{Tr}\!\left[Q_J C_J^{\mathsf T}G_J(\rho)C_J\right].$$
+$$\frac{13}{18}-P=\sum_{J=1/2}^{17/2}\mathrm{Tr}\!\left[Q_J C_J^{\mathsf T}G_J(\rho)C_J\right].$$
 
 The nine rational matrices $Q_J$ have dimensions $7,11,14,12,11,6,3,1,1$. Each summand is nonnegative because both factors under the trace are positive semidefinite. For a quadratic feature list, $F\rho F^\dagger$ has polynomial degree at most five. The stored identity cancels all terms above degree two exactly.
 
@@ -52,7 +52,7 @@ This is a direct finite witness using positivity, tensor products, and represent
 
 A 4-AC state has $\rho=I_6/6+X$ with only rank-five multipoles. Time reversal sends $X$ to $-X$. Hence positivity of $\rho$ and its time reverse implies $-I_6/6\preceq X\preceq I_6/6$, or
 
-$$B(X)=I_6/36-X^2\succeq0,\qquad S=\operatorname{Tr}X^2=P-1/6.$$
+$$B(X)=I_6/36-X^2\succeq0,\qquad S=\mathrm{Tr}X^2=P-1/6.$$
 
 The certificate combines four positive localizing terms built from $B(X)$ and quadratic coupled multipoles with three squared norms of cubic coupled multipoles:
 
@@ -72,6 +72,20 @@ The published package contains the final certificates and verifiers. It does not
 
 The optional random complex-state checks exercise a different implementation of the coupled operators. They are useful for detecting transcription and convention errors, but finite sampling cannot establish a global theorem. The exact identities and positivity arguments are the proof.
 
+## 7. Exact convex roofs of the rank-four state
+
+These are separate optimization problems from the global purity maxima: for the fixed rank-four state, minimize the ensemble average of the pure-state purity-based anticoherence. A feasible ensemble is an upper bound on this **minimum**. An affine functional below the pure-state measure on the entire support gives a lower bound for every decomposition. A feasible ensemble whose components all touch this affine functional proves equality. This supporting-function picture of convex roofs is discussed in [Uhlmann (2010)](https://doi.org/10.3390/e12071799).
+
+The rank-four support is invariant under a fivefold spin rotation. Averaging a seed over its five rotated copies removes off-diagonal support entries while preserving the objective. This is an explicit application of the symmetry principle developed by [Vollbrecht and Werner (2001)](https://doi.org/10.1103/PhysRevA.64.062307). Every complex support state remains covered: a triangle inequality gives the first-order phase bound, while every second-order phase-dependent term is minimized by nonnegative real amplitudes. The new support verifier reconstructs these input polynomials directly from symmetric five-qubit reductions.
+
+For the first-order roof, a one-parameter six-state ensemble reduces to a two-dimensional generalized Rayleigh quotient, giving the radical expression. Two positive algebraic Gram matrices prove that its affine lower bound holds globally. Exact arithmetic in a number field checks the polynomial identity; rational intervals and integer square roots certify positive LDL pivots.
+
+For the second-order roof, a twelve-state ensemble has two five-state rotation orbits and two singletons. The two orbit seeds touch a common affine lower bound and satisfy eight stationary-contact equations. These define algebraic numbers. A rational interval contraction proves that there is exactly one root in a stated box, and an exact Gram identity modulo those equations proves global positivity. Positive interval-enclosed ensemble weights close the upper/lower gap. Eliminating two amplitudes per orbit with a quartic discriminant reduces the specification to four polynomial equations; an additional contraction check proves that the reduced specification selects the same root. Neither an unproved numerical minimum nor a guessed radical formula enters the conclusion.
+
+The sum-of-squares step uses the general methods described above. The root verification follows the verified-numerics principle reviewed by [Rump (2010)](https://doi.org/10.1017/S096249291000005X). High-precision arithmetic only proposes rational centers and inverse matrices; exact rational inequalities prove that the resulting map is a strict contraction into the box. Thus numerical discovery and mathematical certification have separate roles.
+
+See the [complete roof proof note](docs/convex-roof-certificates.pdf) for every equation and the [roof data guide](convex_roofs/README.md) for file conventions and proof obligations. `python verify_roofs.py` runs all roof checks, and `python verify_all.py` includes them with the purity certificates.
+
 ## References
 
 1. J. Denis, T. Lacaille, J. Martin, and E. Serrano-Ensástiga, *Total, quantum, and classical measures of anticoherence for mixed spin states*, [arXiv:2605.29436](https://arxiv.org/abs/2605.29436) (2026). Accompanying manuscript; its cited repository commit fixes the version of these certificates.
@@ -82,4 +96,8 @@ The optional random complex-state checks exercise a different implementation of 
 6. K. Gatermann and P. A. Parrilo, *Symmetry groups, semidefinite programs, and sums of squares*, J. Pure Appl. Algebra **192**, 95–128 (2004), [arXiv:math/0211450](https://arxiv.org/abs/math/0211450), [doi:10.1016/j.jpaa.2003.12.011](https://doi.org/10.1016/j.jpaa.2003.12.011).
 7. H. Peyrl and P. A. Parrilo, *Computing sum of squares decompositions with rational coefficients*, Theor. Comput. Sci. **409**, 269–281 (2008), [doi:10.1016/j.tcs.2008.09.025](https://doi.org/10.1016/j.tcs.2008.09.025).
 
-The last four works are methodological background, not prior claims of the particular spin-5/2 optimum values or identities given here.
+8. A. Uhlmann, *Roofs and Convexity*, Entropy **12**, 1799–1832 (2010), [doi:10.3390/e12071799](https://doi.org/10.3390/e12071799).
+9. K. G. H. Vollbrecht and R. F. Werner, *Entanglement measures under symmetry*, Phys. Rev. A **64**, 062307 (2001), [doi:10.1103/PhysRevA.64.062307](https://doi.org/10.1103/PhysRevA.64.062307).
+10. S. M. Rump, *Verification methods: rigorous results using floating-point arithmetic*, Acta Numerica **19**, 287–449 (2010), [doi:10.1017/S096249291000005X](https://doi.org/10.1017/S096249291000005X).
+
+References 4–10 provide methodological background, not prior claims of the particular spin-5/2 optimum values or identities given here.

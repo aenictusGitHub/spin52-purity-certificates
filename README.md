@@ -1,10 +1,10 @@
-# Exact purity certificates for spin 5/2
+# Exact purity and convex-roof certificates for spin 5/2
 
-This repository contains the full proofs, exact coefficient data, and verification programs for the global purity optima of mixed spin-5/2 states with anticoherence orders 2, 3, and 4. It accompanies *Total, quantum, and classical measures of anticoherence for mixed spin states* by Jérôme Denis, Tara Lacaille, John Martin, and Eduardo Serrano-Ensástiga ([arXiv:2605.29436](https://arxiv.org/abs/2605.29436)). The material was extracted from Appendix C of the revised manuscript; the convex-roof certificates for the quantum contributions are separate results and are not part of this repository.
+This repository contains the full proofs, exact coefficient data, and verification programs for the global purity optima of mixed spin-5/2 states with anticoherence orders 2, 3, and 4. It accompanies *Total, quantum, and classical measures of anticoherence for mixed spin states* by Jérôme Denis, Tara Lacaille, John Martin, and Eduardo Serrano-Ensástiga ([arXiv:2605.29436](https://arxiv.org/abs/2605.29436)). It collects the material removed from the revised manuscript appendices on purity certificates and exact rank-four convex roofs. Version 1.1.0 adds the full proofs and verification data for the purity-based quantum anticoherence of the rank-four state.
 
 For a spin-5/2 density operator, equivalently a symmetric state of five qubits, define
 
-$$P_{\max}(5,t)=\max\{\operatorname{Tr}(\rho^2):\rho\succeq0,\ \operatorname{Tr}\rho=1,\ \rho_t=I_{t+1}/(t+1)\}.$$
+$$P_{\max}(5,t)=\max\{\mathrm{Tr}(\rho^2):\rho\succeq0,\ \mathrm{Tr}\rho=1,\ \rho_t=I_{t+1}/(t+1)\}.$$
 
 | AC order $t$ | Exact maximum purity | Upper-bound certificate | Rank of an attaining state |
 |---|---|---|---|
@@ -14,16 +14,26 @@ $$P_{\max}(5,t)=\max\{\operatorname{Tr}(\rho^2):\rho\succeq0,\ \operatorname{Tr}
 
 These bounds hold for **all feasible density operators**, without assuming a rank, a real matrix, or a preferred eigenbasis. Explicit states attain each bound. The exact verification does not call a numerical optimization solver.
 
+For the rank-four fourth-order state, the purity-based quantum contributions are also certified globally:
+
+$$q_1=\frac{694-4\sqrt{22}-2\sqrt{6071+448\sqrt{22}}}{675}=0.73249884302689881566\ldots,$$
+
+$$q_2=\frac{171}{400}+\frac{u+4v}{12}=0.67058403099168934995\ldots.$$
+
+Here $u,v$ are specified by a uniquely isolated root of a four-variable polynomial system in the [convex-roof proof note](docs/convex-roof-certificates.pdf). Matching affine lower bounds and attaining six- and twelve-state ensembles prove these values. Complementary orders give $q_3=(8/9)q_2$ and $q_4=(5/8)q_1$.
+
 ## Read the proofs
 
 - [Methods and relation to the literature](METHODS.md): why the certificates prove global optima, how rotation symmetry and time reversal are used, and the distinction between numerical discovery and exact verification.
-- [Complete mathematical proof note](docs/purity-certificates.pdf), with [editable LaTeX source](docs/purity-certificates.tex): all three proofs, the attaining states, coefficient conventions, and references.
+- [Complete purity proof note](docs/purity-certificates.pdf), with [editable LaTeX source](docs/purity-certificates.tex): all three proofs, the attaining states, coefficient conventions, and references.
+- [Complete convex-roof proof note](docs/convex-roof-certificates.pdf), with [editable LaTeX source](docs/convex-roof-certificates.tex): state definition, phase minimization, exact formulas, root isolation, positive Gram matrices, and attaining ensembles.
+- [Convex-roof data and verification guide](convex_roofs/README.md).
 - [Order-two data conventions](global_purity2/README.txt): invariant coordinates, localizing blocks, and the rational positivity checks.
 - [Bibliography](docs/references.bib): source references in BibTeX format.
 
 ## Verify from a clean checkout
 
-Python 3.10 or later, NumPy, and SymPy are sufficient. Use a virtual environment if desired:
+Python 3.10 or later, NumPy, SymPy, and mpmath are sufficient. Use a virtual environment if desired:
 
 ```bash
 python3 -m venv .venv
@@ -37,19 +47,22 @@ On Windows, activate with `.venv\Scripts\activate` instead. The full command reg
 Optional commands:
 
 ```bash
+python verify_roofs.py
 python verify_all.py --quick
 python verify_all.py --numerical-crosschecks
 ```
 
-`--quick` skips only regeneration of the cached order-two localizing coefficient matrices; the invariant-basis, coupling, positivity, polynomial-identity, and optimizer checks still run. Use the default full verification for an independent reproduction of the certificate. The optional numerical cross-checks evaluate coupled operators directly on complex states; they provide an additional implementation check and are **not** the proof.
+`verify_roofs.py` runs only the two convex-roof proofs and their independent support-polynomial check. `--quick` skips only regeneration of the cached order-two localizing coefficient matrices; the invariant-basis, coupling, positivity, polynomial-identity, and optimizer checks still run. Use the default full verification for an independent reproduction of the certificate. The optional numerical cross-checks evaluate coupled operators directly on complex states; they provide an additional implementation check and are **not** the proof.
 
 ## Files and proof obligations
 
 | File | What it verifies |
 |---|---|
+| `verify_roofs.py` | Physical support polynomials, both exact convex roofs, and the four-variable algebraic reduction |
+| `convex_roofs/` | Exact roof coefficient data, verifiers, and rational interval reports |
 | `verify_optimizers.py` | Exact positivity, trace one, maximally mixed reductions, and attainment for all three states |
-| `prove_purity2.py` | Complete invariant bases; regenerated coupled features and coefficient matrices; rational positivity of nine blocks; exact cancellation to $13/18-\operatorname{Tr}\rho^2$ |
-| `prove_purity3.py` | Exact three-copy expectations and cancellation to $1/2-\operatorname{Tr}\rho^2$ |
+| `prove_purity2.py` | Complete invariant bases; regenerated coupled features and coefficient matrices; rational positivity of nine blocks; exact cancellation to $13/18-\mathrm{Tr}\rho^2$ |
+| `prove_purity3.py` | Exact three-copy expectations and cancellation to $1/2-\mathrm{Tr}\rho^2$ |
 | `prove_purity4_sixth.py` | Direct expansion of the seven nonnegative terms and exact attainment of $7/24$ |
 | `verify_purity2_independently.py` | Supplementary numerical check of the order-two identity on complex Hermitian matrices |
 | `verify_purity3_independently.py` | Supplementary direct three-copy check on complex 3-AC states |
