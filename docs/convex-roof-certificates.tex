@@ -1,0 +1,312 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=24mm]{geometry}
+\usepackage{amsmath,amssymb,braket}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\RePart}{Re}
+\newcommand{\A}{\mathcal A}
+\title{Exact convex-roof certificates for the rank-four spin-$5/2$ state}
+\author{J\'er\^ome Denis, Tara Lacaille, John Martin,\\Eduardo Serrano-Ens\'astiga}
+\date{October 1, 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+This companion note contains the full development removed from the appendix ``Exact roofs for the rank-four state'' of the revised manuscript \emph{Total, quantum, and classical measures of anticoherence for mixed spin states}. We give a radical formula for the first-order purity-based quantum anticoherence and an exact, uniquely isolated algebraic specification for the second-order value. Matching affine lower bounds and attaining ensembles prove both convex roofs globally. Exact verification programs accompany all certificates.
+\end{abstract}
+
+\section{State, definition, and complementary orders}\label{sec:definition}
+We use the purity-based pure-state anticoherence \cite{BaguetteMartin2017} and its convex-roof extension in the accompanying manuscript \cite{Denis2026}. For a normalized symmetric five-qubit pure state $|\phi\rangle$, let $\rho_t(\phi)$ be its $t$-qubit reduction and define
+\begin{equation}
+ \A_t^{\mathcal P}(\phi)=\frac{t+1}{t}\bigl[1-\Tr\rho_t(\phi)^2\bigr],\qquad
+ q_t=\A_t^{Q,\mathcal P}(\rho)=\min_{\rho=\sum_i p_i|\phi_i\rangle\langle\phi_i|}\sum_i p_i\A_t^{\mathcal P}(\phi_i).
+\end{equation}
+The probabilities are nonnegative and sum to one, and all $|\phi_i\rangle$ are normalized. The state considered throughout is
+\begin{equation}\label{eq:j5o2_4AC}
+ \rho=\tfrac1{12}|\psi_1\rangle\langle\psi_1|+\tfrac14|\psi_2\rangle\langle\psi_2|
+ +\tfrac13|\psi_3\rangle\langle\psi_3|+\tfrac13|\psi_4\rangle\langle\psi_4|,
+\end{equation}
+where the orthonormal support basis is
+\begin{align}
+ |\psi_1\rangle&=|\tfrac52,-\tfrac32\rangle,&
+ |\psi_2\rangle&=|\tfrac52,\tfrac32\rangle,\nonumber\\
+ |\psi_3\rangle&=\sqrt{\tfrac9{20}}|\tfrac52,\tfrac52\rangle+\sqrt{\tfrac{11}{20}}|\tfrac52,-\tfrac52\rangle,&
+ |\psi_4\rangle&=|\tfrac52,-\tfrac12\rangle.
+\end{align}
+This is the rank-four state of Table I in Ref.~\cite{Denis2026}; it has purity $7/24$ and is exactly fourth-order anticoherent. Equality of complementary reduced purities for every pure five-qubit state gives
+\begin{equation}
+ \A_{5-t}^{\mathcal P}(\phi)=\frac{t(6-t)}{(5-t)(t+1)}\A_t^{\mathcal P}(\phi).
+\end{equation}
+The positive factor pulls through the ensemble minimization. Thus $q_3=(8/9)q_2$ and $q_4=(5/8)q_1$; only $q_1,q_2$ need independent proofs.
+
+\section{Method and relation to the literature}
+A feasible ensemble supplies an upper bound on a convex roof. To prove optimality, we construct an affine functional below the pure-state measure on the entire support; its value on $\rho$ is a lower bound for every ensemble. Equality for a displayed ensemble closes the gap. This is the supporting-affine-function approach to convex roofs reviewed by Uhlmann \cite{Uhlmann2010}.
+
+The state is invariant under a cyclic subgroup of spin rotations. Averaging a seed over this group reconstructs a diagonal support state while preserving the objective. Such symmetry reduction is the principle developed for entanglement measures by Vollbrecht and Werner \cite{VollbrechtWerner2001}. Here we give the orbit construction explicitly and bound all complex support states, so optimality does not depend on assuming an orbit ansatz for an unknown optimizer.
+
+After minimizing phases, the lower-bound problem is polynomial nonnegativity. Exact positive Gram matrices provide the sum-of-squares certificates, following the general methodology of Parrilo \cite{Parrilo2000}; rational or algebraic reconstruction and exact verification follow the philosophy of Peyrl and Parrilo \cite{PeyrlParrilo2008}. For the second-order value, a rational interval contraction establishes a unique solution of the contact equations. This is a verified-numerics argument of the type reviewed by Rump \cite{Rump2010}: high-precision floating-point calculations only suggest rational centers and inverses, while exact rational inequalities prove existence, uniqueness, positivity, and feasibility. The detailed identities and ensembles below are specific to this state.
+
+\section{Exact roofs for the rank-four state}
+\label{app:spin52_roofs}
+Let $q_t=\A_t^{Q,\mathcal P}(\rho)$ for Eq.~\eqref{eq:j5o2_4AC}. We obtain the closed radical expression
+\begin{equation}\label{eq:rank4_q1_exact}
+ q_1=\frac{694-4\sqrt{22}-2\sqrt{6071+448\sqrt{22}}}{675}
+\end{equation}
+and an exact algebraic characterization of $q_2$, given below by a uniquely isolated solution of polynomial equations. Their values are
+\begin{align}\label{eq:rank4_certified_roofs}
+ q_1&=0.73249884302689881566\ldots,\\
+ q_2&=0.67058403099168934995\ldots.\nonumber
+\end{align}
+The ancillary certificates enclose $q_2$ in an interval of width below $10^{-60}$. Its polynomial characterization is exact; we do not assert a compact expression in radicals. The complementary-order identity derived in Sec.~\ref{sec:definition} gives $q_3=(8/9)q_2$ and $q_4=(5/8)q_1$ exactly.
+
+\subsection{Support, phases, and rotation orbits}
+Use the support basis $(\psi_1,\psi_2,\psi_3,\psi_4)$ specified in Eq.~\eqref{eq:j5o2_4AC}, with
+$\boldsymbol\lambda=(1/12,1/4,1/3,1/3)$. Every component of a pure-state decomposition lies in this support. A lower bound on pure-state anticoherence that is affine in the four basis probabilities therefore bounds every ensemble average. An ensemble saturating that bound establishes the convex roof.
+
+The rotation $U=\exp(-2\pi iJ_z/5)$ has distinct characters on these four basis vectors. The equal mixture of $U^k|\psi\rangle$, $k=0,\ldots,4$, removes all off-diagonal support entries while preserving pure-state anticoherence. We call this five-state ensemble a rotation orbit.
+
+For a support vector $\sum_i z_i|\psi_i\rangle$, put $(a,b,c,d)=(|z_1|,|z_2|,|z_3|,|z_4|)$ and $n=a^2+b^2+c^2+d^2$. The triangle inequality for the three nonzero terms in the compressed $J_+$ gives
+\begin{align}\label{eq:roof_F1}
+ F_1&=n^2-\tfrac4{25}(M^2+L^2),\\
+ M&=-\tfrac32a^2+\tfrac32b^2-\tfrac14c^2-\tfrac12d^2,\nonumber\\
+ L&=\tfrac32bc+\tfrac{\sqrt{11}}2ac+\sqrt8\,ad.\nonumber
+\end{align}
+Thus $\A_1^{\mathcal P}(\psi)\ge F_1$ when $n=1$, with equality for nonnegative real amplitudes.
+
+The second-order pure-state polynomial has the same phase-minimization property. Its phase-dependent terms are
+\begin{align}
+ &-\frac{9\sqrt{22}}{25}\Re(z_1^2\overline z_3\overline z_4)
+ -\frac{9\sqrt2}{25}\Re(z_1z_3\overline z_2\overline z_4)\nonumber\\
+ &\hspace{18mm}-\frac{9\sqrt{11}}{50}\Re(z_2z_3\overline z_4^{\,2}).
+\end{align}
+All three terms are minimized simultaneously by real nonnegative amplitudes. Consequently, for $n=1$,
+$\A_2^{\mathcal P}(\psi)\ge F_2(a,b,c,d)$, where
+\begin{align}\label{eq:roof_F2_real}
+ F_2=\frac3{400}\bigl[&96a^4+336a^2b^2+180a^2c^2
+ +72a^2d^2\nonumber\\
+ &+96b^4+220b^2c^2+208b^2d^2\nonumber\\
+ &+99c^4+294c^2d^2+108d^4\nonumber\\
+ &-48\sqrt{22}\,a^2cd-48\sqrt2\,abcd\nonumber\\
+ &-24\sqrt{11}\,bcd^2\bigr].
+\end{align}
+This reduction treats all complex support states, not only a restricted real-state ansatz.
+
+\subsection{Closed formula and global certificate for $q_1$}
+Take a rotation orbit with normalized seed proportional to $(1,y,2,2)$, assign it total weight $(9+y^2)/12$, and assign weight $(3-y^2)/12$ to $\psi_2$. This reproduces $\boldsymbol\lambda$ exactly for $0\le y^2\le3$. The ensemble objective is
+\begin{equation}\label{eq:roof_Q1_y}
+ Q_1(y)=\frac{93y^2-6(\sqrt{11}+4\sqrt2)y+551-8\sqrt{22}}
+ {75(y^2+9)}.
+\end{equation}
+It is a two-dimensional generalized Rayleigh quotient. Its minimum is Eq.~\eqref{eq:rank4_q1_exact}, attained at
+\begin{equation}\label{eq:roof_y_exact}
+ y=\frac{27(\sqrt{11}+4\sqrt2)}
+ {143+4\sqrt{22}+2\sqrt{6071+448\sqrt{22}}}.
+\end{equation}
+Numerically, $y=0.707267671535\ldots$. In particular, $0<y^2<3$, so this is a feasible six-state ensemble.
+
+To prove global optimality, set $\mathbf v=(1,y,2,2)$, $N_0=9+y^2$, and define the algebraic coefficients
+\begin{equation}\label{eq:roof_ell1}
+ \ell_i=\frac{\partial_iF_1(\mathbf v)}{2N_0v_i}
+       -\frac{F_1(\mathbf v)}{N_0^2}.
+\end{equation}
+They satisfy $\ell_2=16/25$ and $\boldsymbol\lambda\cdot\boldsymbol\ell=q_1$. Introduce the quadratic vectors
+\begin{align}
+ h&=(ab-ya^2,\ c^2-4a^2,\ cd-4a^2,\ d^2-4a^2)^T,\nonumber\\
+ g&=(ad-ac,\ bc-yac,\ bd-yac)^T.
+\end{align}
+There is an exact polynomial identity
+\begin{equation}\label{eq:roof_q1_sos}
+ F_1-n\sum_i\ell_i x_i^2=h^TAh+g^TBg,
+ \qquad \mathbf x=(a,b,c,d),
+\end{equation}
+with
+\begin{equation}
+ A=\begin{pmatrix}
+ A_{11}&A_{12}&A_{13}&0\\
+ A_{12}&A_{22}&0&A_{24}\\
+ A_{13}&0&A_{33}&0\\
+ 0&A_{24}&0&A_{44}
+ \end{pmatrix},\quad
+ B=\begin{pmatrix}
+ \tfrac12&\tfrac14&0\\
+ \tfrac14&B_{22}&0\\
+ 0&0&B_{33}
+ \end{pmatrix},
+\end{equation}
+where
+\begin{align}
+ B_{22}&=\tfrac{28}{25}-\ell_3,&B_{33}&=\tfrac85-\ell_4,\nonumber\\
+ A_{11}&=\tfrac{52}{25}-\ell_1,&A_{22}&=\tfrac{99}{100}-\ell_3,\nonumber\\
+ A_{44}&=\tfrac{24}{25}-\ell_4,&A_{24}&=\tfrac18(\ell_1+9\ell_4-\tfrac{383}{50}),\nonumber\\
+ A_{12}&=-\tfrac{3\sqrt{11}}{25}+\tfrac14+yB_{22},\nonumber\\
+ A_{13}&=-\tfrac{12\sqrt2}{25}-\tfrac14+yB_{33},\nonumber\\
+ A_{33}&=\tfrac{49}{25}-\ell_3-\ell_4-2A_{24}.
+\end{align}
+Both matrices are positive definite. Rational interval arithmetic encloses their successive $LDL^T$ pivots, respectively, in
+\begin{align}
+ &(2.70310,2.70311),\quad(0.03206,0.03208),\nonumber\\
+ &(0.02293,0.02294),\quad(0.04338,0.04340),\nonumber\\
+ &\{1/2\},\quad(0.03747,0.03748),\quad(0.68425,0.68426).
+\end{align}
+Equation~\eqref{eq:roof_q1_sos} bounds every ensemble average below by $\boldsymbol\lambda\cdot\boldsymbol\ell$. The ensemble above attains equality, completing the proof of Eq.~\eqref{eq:rank4_q1_exact}.
+
+\subsection{Exact algebraic characterization of $q_2$}
+The optimal ensemble uses two rotation orbits together with $\psi_2$ and $\psi_3$. Their pure states touch a common affine lower bound. Its second and third coefficients are fixed by the latter two states; call the remaining coefficients $u$ and $v$. The orbit seeds are stationary contact points of this bound. Rescaling their amplitudes removes the square-root coefficients and gives the following polynomial:
+\begin{align}\label{eq:roof_H}
+ H(A,B,C;u,v)={}&[P(A)+825C^2]B^2-2L(A)CB\nonumber\\
+ &+Q(A)C^2-2M(A)C+E(A),
+\end{align}
+where the dependence on $u,v$ is implicit in
+\begin{align}\label{eq:roof_q2_coefficients}
+ P(A)&=(7920-4400u)A^2+81312-96800v,\nonumber\\
+ Q(A)&=(243-400u)A^2+12870-8800v,\nonumber\\
+ L(A)&=1584A+8712,\qquad M(A)=1584A^2,\nonumber\\
+ E(A)&=(288-400u)A^4\nonumber\\
+ &\quad +(4752-8800u-8800v)A^2\nonumber\\
+ &\quad +156816-193600v.
+\end{align}
+For each $\sigma\in\{-,+\}$, impose the four equations
+\begin{equation}\label{eq:roof_q2_root_system}
+ \begin{aligned}
+ H(A_\sigma,B_\sigma,C_\sigma;u,v)&=0,\\
+ \nabla_{A,B,C}H(A_\sigma,B_\sigma,C_\sigma;u,v)&=0.
+ \end{aligned}
+\end{equation}
+These are eight polynomial equations in eight unknowns. Specify their solution by requiring each entry of
+$(A_-,B_-,C_-,A_+,B_+,C_+,u,v)$ to lie within $10^{-9}$ of the corresponding exact decimal center
+\begin{equation}\label{eq:roof_q2_root_box}
+ \begin{pmatrix}
+ 0.2590610889\\1.6517303055\\1.8148635176\\
+ 2.5531571169\\0.3494971695\\1.8018766054\\
+ -0.1650693566\\0.7705194321
+ \end{pmatrix}.
+\end{equation}
+There is exactly one solution in this box. In terms of that uniquely specified algebraic solution, the exact roof is
+\begin{equation}\label{eq:rank4_q2_exact}
+ \boxed{q_2=\frac{171}{400}+\frac{u+4v}{12}.}
+\end{equation}
+Equations~\eqref{eq:roof_H}--\eqref{eq:rank4_q2_exact} define $q_2$ without any remaining minimization.
+
+\subsubsection{Reduction to four unknowns}
+The amplitudes $B_\sigma,C_\sigma$ can be eliminated from this specification. Since $H$ is quadratic in $B$, its stationary value occurs at
+\begin{equation}
+ B=\frac{L(A)C}{P(A)+825C^2}.
+\end{equation}
+Define the quartic polynomial in $C$
+\begin{align}\label{eq:roof_q2_quartic}
+ K(A,C;u,v)={}&[P(A)+825C^2]\nonumber\\
+ &\times[Q(A)C^2-2M(A)C+E(A)]\nonumber\\
+ &-L(A)^2C^2.
+\end{align}
+Completing the square gives
+\begin{align}
+ [P(A)+825C^2]H={}&\bigl([P(A)+825C^2]B\nonumber\\
+ &\qquad-L(A)C\bigr)^2+K.
+\end{align}
+Thus each stationary contact is a double root of $K$ in $C$, with $K=K_C=K_A=0$. Let
+\begin{equation}\label{eq:roof_q2_discriminant}
+ \Phi(A;u,v)=\frac{\operatorname{Disc}_C K(A,C;u,v)}{P(A)}.
+\end{equation}
+The discriminant vanishes when the quartic has a repeated root. Its factor $P(A)$ divides exactly, so $\Phi$ is a polynomial, of degree $22$ in the auxiliary amplitude $A$. The same $q_2$ is specified by just four polynomial equations in $(A_-,A_+,u,v)$:
+\begin{equation}\label{eq:roof_q2_reduced_system}
+ \Phi(A_\sigma;u,v)=\partial_A\Phi(A_\sigma;u,v)=0,
+ \quad\sigma=\pm,
+\end{equation}
+with each coordinate within $10^{-9}$ of
+\begin{equation}\label{eq:roof_q2_reduced_box}
+ \begin{pmatrix}
+ 0.2590610889\\2.5531571169\\
+ -0.1650693566\\0.7705194321
+ \end{pmatrix}.
+\end{equation}
+Here and below the box endpoints are rational. The ancillary verifier proves that this reduced system has exactly one root in the stated box: its rational contraction bound is below $1.922\times10^{-4}$, and its self-map displacement is below $2.296\times10^{-11}$. The certified root of the original eight equations projects into this box; its quartic has exactly one double root and satisfies $P>0$ and $K_{CC}>0$. At such a root, $K_A=0$ implies $\partial_A\Phi=0$. Hence the reduced specification selects precisely the same $u,v$ in Eq.~\eqref{eq:rank4_q2_exact}. This eliminates four unknowns without introducing an optimization or asserting a radical formula.
+
+\subsubsection{Existence and uniqueness of the specified root}
+Let $\mathbf f$ collect the eight polynomials in Eq.~\eqref{eq:roof_q2_root_system}, $\mathbf c$ denote the rational center in Eq.~\eqref{eq:roof_q2_root_box}, and $r=10^{-9}$. The ancillary certificate supplies a rational matrix $R$ approximating $D\mathbf f(\mathbf c)^{-1}$. Exact rational interval arithmetic on the box $X$ proves
+\begin{align}
+ \sup_{\mathbf x\in X}\|I-RD\mathbf f(\mathbf x)\|_\infty
+ &<2.227\times10^{-7},\\
+ \|R\mathbf f(\mathbf c)\|_\infty
+ +r\sup_{\mathbf x\in X}\|I-RD\mathbf f(\mathbf x)\|_\infty
+ &<4.90\times10^{-11}<r.\nonumber
+\end{align}
+Thus $\mathbf x\mapsto\mathbf x-R\mathbf f(\mathbf x)$ is a strict contraction mapping $X$ into itself. The first inequality also implies that $R$ is nonsingular, so its unique fixed point is the unique polynomial root in $X$. The same check on a nested rational box of radius $10^{-60}$ gives the enclosure stated after Eq.~\eqref{eq:rank4_certified_roofs}.
+
+\subsubsection{A global lower certificate}
+For real variables $(A,B,C,D)$, put
+\begin{align}
+ n_s&=A^2+11B^2+C^2+22D^2,\nonumber\\
+ G&=400\bigl[F_2(A,\sqrt{11}B,C,\sqrt{22}D)\nonumber\\
+ &\qquad-n_s(uA^2+\tfrac{198}{25}B^2
+                   +\tfrac{297}{400}C^2+22vD^2)\bigr].
+\end{align}
+This homogeneous quartic satisfies $G(A,B,C,1)=H(A,B,C;u,v)$. Its four stationary zeros are
+\begin{gather}
+ (0,1,0,0),\quad(0,0,1,0),\nonumber\\
+ (A_-,B_-,C_-,1),\quad(A_+,B_+,C_+,1).
+\end{gather}
+Let $T$ have these four columns in the stated order. It is invertible because $A_-\ne A_+$. With $(A,B,C,D)^T=T\mathbf s$, set
+\begin{equation}
+ m(\mathbf s)=(s_1s_2,s_1s_3,s_1s_4,s_2s_3,s_2s_4,s_3s_4)^T.
+\end{equation}
+The contact equations eliminate every $s_i^4$ and $s_i^3s_j$ coefficient of $G(T\mathbf s)$. Its remaining coefficients determine a symmetric $6\times6$ matrix $Q$ through
+\begin{equation}\label{eq:roof_q2_sos}
+ G(T\mathbf s)=m(\mathbf s)^TQm(\mathbf s).
+\end{equation}
+For diagonal entries, take the coefficient of the corresponding squared monomial; for distinct monomials sharing an index, take half their product coefficient. The three remaining entries satisfy
+\begin{equation}
+ Q_{16}+Q_{25}+Q_{34}
+ =\tfrac12[s_1s_2s_3s_4]G(T\mathbf s).
+\end{equation}
+Choose $Q_{16}=-1663$ and $Q_{25}=-6263$; this fixes $Q$ completely. Here $[w]P$ denotes the coefficient of the monomial $w$ in $P$.
+
+Exact interval evaluation throughout the box in Eq.~\eqref{eq:roof_q2_root_box} bounds the six successive $LDL^T$ pivots of $Q$ below by
+\begin{equation}
+ (825,\ 7305,\ 41890,\ 40.28,\ 1358,\ 620),
+\end{equation}
+so $Q\succ0$. Equation~\eqref{eq:roof_q2_sos} is verified symbolically modulo the eight contact equations, with no coefficient residual. Combining it with the phase bound gives, for every normalized complex support state,
+\begin{equation}
+ \A_2^{\mathcal P}(\psi)\ge
+ u|z_1|^2+\tfrac{18}{25}|z_2|^2+
+ \tfrac{297}{400}|z_3|^2+v|z_4|^2.
+\end{equation}
+Averaging proves the lower bound in Eq.~\eqref{eq:rank4_q2_exact}.
+
+\subsubsection{An ensemble attaining the bound}
+The two nontrivial orbit seeds have support amplitudes proportional to
+\begin{equation}
+ w_\sigma=(A_\sigma,\sqrt{11}B_\sigma,C_\sigma,\sqrt{22}),
+ \qquad n_\sigma=\|w_\sigma\|^2.
+\end{equation}
+Define
+\begin{align}
+ \tau_-&=\frac{1/12-A_+^2/66}{A_-^2-A_+^2},&
+ \tau_+&=\frac1{66}-\tau_-,\nonumber\\
+ r_2&=\frac14-11(\tau_-B_-^2+\tau_+B_+^2),\nonumber\\
+ r_3&=\frac13-(\tau_-C_-^2+\tau_+C_+^2).
+\end{align}
+Assign total weight $\tau_\sigma n_\sigma$ to the orbit of $w_\sigma/\sqrt{n_\sigma}$ and weights $r_2,r_3$ to $\psi_2,\psi_3$. These twelve components reproduce $\boldsymbol\lambda$ exactly. All four weights are strictly positive, approximately
+\begin{align}
+ (r_2,r_3)&\simeq(0.16106443,0.28402765),\nonumber\\
+ (\tau_-n_-,\tau_+n_+)&\simeq(0.13246091,0.42244701).
+\end{align}
+Every component saturates the affine lower bound, proving Eq.~\eqref{eq:rank4_q2_exact} globally.
+
+\section{Reproduction and data conventions}
+The repository folder \texttt{convex\_roofs/} contains all data needed for these proofs. From the repository root, run \texttt{python verify\_roofs.py}; the complete \texttt{verify\_all.py} command also includes these checks. Python, NumPy, SymPy, and mpmath are sufficient; no optimization solver is required. Do not disable Python assertions.
+
+The support verifier reconstructs both pure-state polynomials directly from the symmetric five-qubit reductions, including arbitrary complex support amplitudes. The first-order verifier checks the algebraic-field identities, both Gram matrices, their rational interval $LDL^T$ pivots, and ensemble equality. The second-order verifiers check the phase bound, contact equations, exact Gram identity, rational root enclosures, positive ensemble weights, and four-variable discriminant reduction. The JSON output records the rational inverse matrices, interval bounds, and positive pivots.
+
+The coefficients of \texttt{q1\_field.json} and the two first-order Gram files are descending powers of the primitive element $\sqrt2+\sqrt{11}+\sqrt{6071+448\sqrt{22}}$. The second-order contact and Gram polynomials use the variable order $(A_-,B_-,C_-,A_+,B_+,C_+,u,v)$ and exact rational coefficient strings. The stored reduced polynomial equals $\Phi/202649056051200$; the nonzero constant does not affect its roots. The file \texttt{poly\_t2.txt} uses real and imaginary amplitudes $(x_0,\ldots,x_3)$ and $(x_4,\ldots,x_7)$. The high-precision values in \texttt{q2\_600digits.json} are numerical guesses used to propose rational interval centers; only the subsequent exact inequalities certify the result.
+
+The accompanying methods guide distinguishes numerical discovery from exact verification and documents the general literature. The particular coefficients and attaining ensembles above are supplied as results of the accompanying manuscript, rather than attributed to the methodological references.
+\begin{thebibliography}{9}
+\bibitem{Denis2026} J. Denis, T. Lacaille, J. Martin, and E. Serrano-Ens\'astiga, \emph{Total, quantum, and classical measures of anticoherence for mixed spin states}, \href{https://arxiv.org/abs/2605.29436}{arXiv:2605.29436} (2026).
+\bibitem{BaguetteMartin2017} D. Baguette and J. Martin, \emph{Anticoherence measures for pure spin states}, Phys. Rev. A \textbf{96}, 032304 (2017), \href{https://doi.org/10.1103/PhysRevA.96.032304}{doi:10.1103/PhysRevA.96.032304}.
+\bibitem{Uhlmann2010} A. Uhlmann, \emph{Roofs and Convexity}, Entropy \textbf{12}, 1799--1832 (2010), \href{https://doi.org/10.3390/e12071799}{doi:10.3390/e12071799}.
+\bibitem{VollbrechtWerner2001} K. G. H. Vollbrecht and R. F. Werner, \emph{Entanglement measures under symmetry}, Phys. Rev. A \textbf{64}, 062307 (2001), \href{https://doi.org/10.1103/PhysRevA.64.062307}{doi:10.1103/PhysRevA.64.062307}.
+\bibitem{Parrilo2000} P. A. Parrilo, \emph{Structured Semidefinite Programs and Semialgebraic Geometry Methods in Robustness and Optimization}, Ph.D. thesis, Caltech (2000), \href{https://doi.org/10.7907/2K6Y-CH43}{doi:10.7907/2K6Y-CH43}.
+\bibitem{PeyrlParrilo2008} H. Peyrl and P. A. Parrilo, \emph{Computing sum of squares decompositions with rational coefficients}, Theor. Comput. Sci. \textbf{409}, 269--281 (2008), \href{https://doi.org/10.1016/j.tcs.2008.09.025}{doi:10.1016/j.tcs.2008.09.025}.
+\bibitem{Rump2010} S. M. Rump, \emph{Verification methods: rigorous results using floating-point arithmetic}, Acta Numerica \textbf{19}, 287--449 (2010), \href{https://doi.org/10.1017/S096249291000005X}{doi:10.1017/S096249291000005X}.
+\end{thebibliography}
+\end{document}
