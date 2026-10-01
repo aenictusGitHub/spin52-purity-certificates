@@ -1,0 +1,7 @@
+{
+  "python": "3.11.5",
+  "numpy": "1.25.2",
+  "sympy": "1.12",
+  "verification_command": "python3 verify_all.py --numerical-crosschecks",
+  "date": "2026-10-01"
+}
