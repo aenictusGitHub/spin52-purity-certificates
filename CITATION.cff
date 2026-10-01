@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+message: "Please cite the accompanying manuscript and the repository commit used."
+title: "Exact purity certificates for spin 5/2"
+type: software
+version: "1.0.0"
+date-released: "2026-10-01"
+authors:
+  - family-names: Denis
+    given-names: Jérôme
+  - family-names: Lacaille
+    given-names: Tara
+  - family-names: Martin
+    given-names: John
+  - family-names: Serrano-Ensástiga
+    given-names: Eduardo
+repository-code: "https://github.com/aenictusGitHub/spin52-purity-certificates"
+url: "https://github.com/aenictusGitHub/spin52-purity-certificates"
+preferred-citation:
+  type: article
+  title: "Total, quantum, and classical measures of anticoherence for mixed spin states"
+  authors:
+    - family-names: Denis
+      given-names: Jérôme
+    - family-names: Lacaille
+      given-names: Tara
+    - family-names: Martin
+      given-names: John
+    - family-names: Serrano-Ensástiga
+      given-names: Eduardo
+  year: 2026
+  url: "https://arxiv.org/abs/2605.29436"
