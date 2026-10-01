@@ -1,0 +1,283 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=24mm]{geometry}
+\usepackage{amsmath,amssymb,braket}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\DeclareMathOperator{\Tr}{Tr}
+\title{Exact purity certificates for spin $5/2$}
+\author{J\'er\^ome Denis, Tara Lacaille, John Martin,\\Eduardo Serrano-Ens\'astiga}
+\date{October 1, 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+This companion note contains the complete purity certificates formerly presented in Appendix C of the revised manuscript \emph{Total, quantum, and classical measures of anticoherence for mixed spin states}. For mixed spin-$5/2$ states of anticoherence orders two, three, and four, we prove the exact global purity optima $13/18$, $1/2$, and $7/24$. The proofs impose no rank, reality, or eigenbasis restriction. All polynomial identities and positive coefficients are verified exactly by the accompanying programs. The separate convex-roof certificates for quantum anticoherence are outside the scope of this note.
+\end{abstract}
+
+\section{Problem, conventions, and attaining states}
+A spin-$5/2$ density operator is equivalent to a symmetric state of five qubits. A state is $t$-anticoherent when its $t$-qubit reduction is $\mathbb 1_{t+1}/(t+1)$, or equivalently when all multipoles of ranks one through $t$ vanish. For the background on anticoherence and symmetric reductions, see Refs.~\cite{Denis2026,BaguetteMartin2017}. Define
+\begin{equation}
+ P_{\max}(5,t)=\max_{\rho\ge0,\,\Tr\rho=1,\,\rho_t=\mathbb 1_{t+1}/(t+1)}\Tr(\rho^2).
+\end{equation}
+The feasible set is convex, but purity is a convex function being maximized. A feasible state establishes an attainable value; global optimality requires a universal upper bound as well. The certificates in Sec.~\ref{app:spin52_purity} supply those upper bounds.
+
+We order the physical basis as $m=5/2,3/2,\ldots,-5/2$ and use Hilbert--Schmidt normalized irreducible tensors with the Clebsch--Gordan conventions of Ref.~\cite{Varshalovich1988}. All three bounds are attained by the following explicit states. First set
+\begin{equation}
+ |g\rangle=\frac{1}{\sqrt2}(1,0,0,0,0,1)^{\mathsf T},\qquad
+ |h\rangle=\frac{1}{\sqrt2}(0,1,0,0,1,0)^{\mathsf T}.
+\end{equation}
+The order-two optimizer is
+\begin{equation}\label{eq:j5o2_2AC}
+ \rho^{(2)}=\tfrac16|g\rangle\langle g|+\tfrac56|h\rangle\langle h|,
+ \qquad \Tr[(\rho^{(2)})^2]=\tfrac{13}{18}.
+\end{equation}
+For order three set
+\begin{equation}
+ |u_0\rangle=(0,\sqrt{5/6},0,0,0,1/\sqrt6)^{\mathsf T},\qquad
+ |v_0\rangle=(1/\sqrt6,0,0,0,-\sqrt{5/6},0)^{\mathsf T}.
+\end{equation}
+Then
+\begin{equation}\label{eq:j5o2_3AC}
+ \rho^{(3)}=\tfrac12(|u_0\rangle\langle u_0|+|v_0\rangle\langle v_0|),
+ \qquad \Tr[(\rho^{(3)})^2]=\tfrac12.
+\end{equation}
+Finally the order-four optimizer is
+\begin{equation}\label{eq:rank4_matrix}
+ \rho^{(4)}=\frac1{60}\begin{pmatrix}
+ 9&0&0&0&0&\sqrt{99}\\
+ 0&15&0&0&0&0\\
+ 0&0&0&0&0&0\\
+ 0&0&0&20&0&0\\
+ 0&0&0&0&5&0\\
+ \sqrt{99}&0&0&0&0&11
+ \end{pmatrix},\qquad \Tr[(\rho^{(4)})^2]=\tfrac7{24}.
+\end{equation}
+Each state is positive and has trace one and the required maximally mixed reduction. Their ranks are $2,2,4$. The script \texttt{verify\_optimizers.py} checks all these claims with exact arithmetic.
+
+\section{Exact certificates}
+\label{app:spin52_purity}
+We certify the global purity optima of orders two, three, and four. All certificates apply to states of arbitrary rank and are verified in exact arithmetic. We use Hilbert--Schmidt normalized irreducible tensors and standard Clebsch--Gordan phases throughout.
+
+\subsection{Exact second-order threshold}
+\label{app:spin52_purity2}
+For a $2$-AC state, write
+\begin{equation}
+ \rho=\tfrac16\mathbb 1_6+
+ \sum_{L=3}^{5}\sum_{m=-L}^{L}x_{Lm}T_{Lm},\qquad
+ P=\tfrac16+\sum_{L,m}|x_{Lm}|^2.
+\end{equation}
+We prove the global bound $P\le13/18$ by an exact polynomial
+certificate of degree at most five. The construction uses only
+positivity, normalization, and the absence of rank-one and rank-two
+multipoles.
+
+The features are the scalar $1$, the linear tensors $x_L$ for
+$L=3,4,5$, and all quadratic tensors
+$(x_{L_1}\otimes x_{L_2})_K$ with $3\le L_1\le L_2\le5$.
+Here $|L_1-L_2|\le K\le L_1+L_2$, with even $K$ when $L_1=L_2$.
+Denote their components by $f_{\alpha,KM}$; the scalar has $K=0$.
+For each total spin $J$, retain the features with
+$|5/2-K|\le J\le5/2+K$ and form the matrix
+\begin{equation}
+ [\mathsf F^{JM}(\rho)]_{\alpha\mu}
+ =\langle\tfrac52\mu,K_\alpha(M-\mu)|JM\rangle
+ f_{\alpha,K_\alpha,M-\mu}.
+\end{equation}
+Let $\rho_+=\rho$ and $\rho_-=\Theta\rho\Theta^{-1}$. The matrices
+\begin{equation}
+ \mathsf G_J(\rho)=\frac1{2(2J+1)}
+ \sum_{\eta=\pm,\,M}
+ \mathsf F^{JM}(\rho_\eta)\rho_\eta
+ \mathsf F^{JM}(\rho_\eta)^\dagger\ge0
+\end{equation}
+are positive for every feasible state. Summing over $M$ makes the
+construction rotationally invariant; averaging over time reversal
+removes scalars of odd total multipole rank.
+
+The supplied exact matrices $C_J$ and $Q_J$ obey
+\begin{equation}\label{eq:spin52_P2_certificate}
+ \boxed{\ \tfrac{13}{18}-P
+ =\sum_{J=1/2}^{17/2}
+ \Tr\!\left[Q_JC_J^{\mathsf T}\mathsf G_J(\rho)C_J\right]
+ \ge0.\ }
+\end{equation}
+The sum runs over the nine consecutive half-integer spins.
+The matrices $C_J$ are real, and $Q_J$ are rational and positive
+definite. Their sizes, in increasing order of $J$, are
+\begin{equation}
+ \dim Q_J=7,\ 11,\ 14,\ 12,\ 11,\ 6,\ 3,\ 1,\ 1.
+\end{equation}
+Their entries are provided in the repository directory
+\texttt{global\_purity2}. In that data, each $C_J$ is factored into
+rational matrices and explicitly specified square-root scale factors.
+The accompanying rational matrices $R_J$ make
+$R_JQ_JR_J^{\mathsf T}$ strictly diagonally dominant with positive
+diagonal, which certifies $Q_J\succ0$ using exact inequalities.
+
+Equation~\eqref{eq:spin52_P2_certificate} is an exact identity, not
+a bound inferred from a numerical optimization tolerance.
+The verification script \texttt{prove\_purity2.py} reconstructs the
+coupled features from Clebsch--Gordan coefficients, checks a complete
+invariant basis through degree five, regenerates the polynomial
+coefficient matrices, and verifies both the identity and positivity
+with rational arithmetic. No optimization solver is required for
+verification. A separate direct check on complex states evaluates the
+coupled matrices without the invariant expansion.
+
+Equation~\eqref{eq:j5o2_2AC} attains purity $13/18$, proving
+$P_{\max}(5,2)=13/18$ globally. Thus any spin-$5/2$ state with
+larger purity must retain a first- or second-rank multipole.
+
+\subsection{Exact third-order threshold}
+We use positive operators on three copies to bound purity without assuming a rank or a particular eigenbasis. Write $\widetilde\rho=\Theta\rho\Theta^{-1}$ and define the normalized rotational averages
+\begin{align}
+ \Omega&=\int dR\,(U_R\rho U_R^\dagger)^{\otimes3},\\
+ \Omega'&=\int dR\,U_R^{\otimes3}
+ (\widetilde\rho\otimes\rho\otimes\rho)
+ (U_R^\dagger)^{\otimes3}.
+\end{align}
+Both operators are positive because every integrand is positive. In particular, no positivity assumption on a partial transpose is being made.
+
+For $j=5/2$, let $|K;J,M\rangle$ denote the coupled basis $|((j,j)K,j)J,M\rangle$, with standard Clebsch--Gordan phases. A vector specified below by its $K$ components is evaluated at $M=J$. Rotational invariance makes its expectation independent of $M$.
+
+A $3$-AC state has only scalar, rank-four, and rank-five multipoles. Set $a_L=\sum_M|\rho_{LM}|^2$, so that
+\begin{equation}
+ P=\Tr\rho^2=\tfrac16+a_4+a_5.
+\end{equation}
+Define the following normalized vectors:
+\begin{align}
+ |u\rangle&=\sqrt{\tfrac57}|2;\tfrac32,\tfrac32\rangle
+ -\sqrt{\tfrac27}|4;\tfrac32,\tfrac32\rangle,\\
+ |v\rangle&=\sqrt{\tfrac29}|0;\tfrac52,\tfrac52\rangle
+ -\sqrt{\tfrac5{18}}|2;\tfrac52,\tfrac52\rangle\nonumber\\
+ &\hspace{1.2em}-\tfrac1{\sqrt2}|4;\tfrac52,\tfrac52\rangle,\\
+ |w\rangle&=\sqrt{\tfrac{24}{65}}|1;\tfrac32,\tfrac32\rangle
+ +\sqrt{\tfrac7{13}}|2;\tfrac32,\tfrac32\rangle\nonumber\\
+ &\hspace{1.2em}+\sqrt{\tfrac6{65}}|3;\tfrac32,\tfrac32\rangle.
+\end{align}
+Their nonnegative expectations $e_u=\langle u|\Omega|u\rangle$, $e_v=\langle v|\Omega|v\rangle$, and $e_w=\langle w|\Omega'|w\rangle$ obey the exact identity
+\begin{equation}\label{eq:spin52_P3_certificate}
+ \boxed{\quad\tfrac12-P
+ =\frac{84e_u+624e_v+1092e_w}{25}\ge0.\quad}
+\end{equation}
+This proves $P_{\max}(5,3)\le1/2$ for every feasible state. Equation~\eqref{eq:j5o2_3AC} attains equality and therefore certifies the global optimum.
+
+For completeness, the identity can be checked by a short invariant expansion. Besides the scalar and quadratic terms, $\Omega$ contains only two symmetric cubic scalars, with rank triples $(4,4,4)$ and $(4,5,5)$. Denote their coefficients by $b,c$ when their operators are normalized as
+\begin{equation}
+ B_{\boldsymbol L}=\sum_{\boldsymbol L'\in\mathrm{perm}(\boldsymbol L)}
+ \sum_{M_1,M_2,M_3}
+ \begin{pmatrix}L'_1&L'_2&L'_3\\M_1&M_2&M_3\end{pmatrix}
+ \bigotimes_{i=1}^3T_{L'_iM_i},
+\end{equation}
+where only distinct permutations are included and the $T_{LM}$ are Hilbert--Schmidt normalized. Direct coupling gives
+\begin{align}
+ e_u={}&\tfrac1{216}-\tfrac{17a_4+11a_5}{504}
+ -\tfrac{5\sqrt{286}}{392}b-\tfrac{3\sqrt{2002}}{392}c,\\
+ e_v={}&\tfrac1{216}-\tfrac{a_5}{36}
+ +\tfrac{\sqrt{286}}{112}b-\tfrac{\sqrt{2002}}{336}c,\\
+ e_w={}&\tfrac1{216}-\tfrac{19a_4+5a_5}{936}
+ -\tfrac{3\sqrt{286}}{728}b+\tfrac{5\sqrt{2002}}{2184}c.
+\end{align}
+The weighted sum in Eq.~\eqref{eq:spin52_P3_certificate} cancels both cubic terms. The verification script independently checks these coefficients from Clebsch--Gordan coefficients.
+
+\subsection{Exact fourth-order threshold}
+\label{app:spin52_purity4}
+Write a $4$-AC state as $\rho=\mathbb 1_6/6+X$, where
+$X=\sum_{m=-5}^{5}x_mT_{5m}$ contains only rank-five multipoles.
+Hermiticity gives $x_{-m}=(-1)^mx_m^*$, and time reversal changes
+$X$ to $-X$. Positivity of $\rho$ and its time reverse therefore implies
+\begin{equation}
+ B(X)=\tfrac1{36}\mathbb 1_6-X^2\ge0,\qquad
+ S=\Tr X^2=P-\tfrac16.
+\end{equation}
+The following exact certificate proves $S\le1/8$. Physically, it uses
+both the spectral constraint $B(X)\ge0$ and the restriction of $X$ to
+rank five; neither assumption about the rank of $\rho$ nor a choice of
+its eigenbasis is needed.
+
+Use standard Clebsch--Gordan coefficients to define
+\begin{align}
+ F_{KM}&=(x\otimes x)_{KM},\\
+ G^{(p)}_{KM}&=(F_p\otimes x)_{KM}.
+\end{align}
+For example, $F_{KM}=\sum_{m,n}\langle5m,5n|KM\rangle x_mx_n$.
+For a list of even ranks $K$ and real coefficients $w_K$, put
+\begin{align}
+ v^{JM}_{\mu}(w)&=\sum_Kw_K
+ \langle\tfrac52\mu,K(M-\mu)|JM\rangle F_{K,M-\mu},\\
+ \mathcal L_J(w)&=\frac1{2J+1}\sum_{M,\mu,\nu}
+ v^{JM}_{\mu}(w)B_{\mu\nu}(X)v^{JM}_{\nu}(w)^*\ge0.
+\end{align}
+Likewise, $\mathcal C_K(h)=(2K+1)^{-1}\sum_M|h_{KM}|^2\ge0$.
+We use four localizing terms, specified by
+\begin{align}
+ J_1&=\tfrac52,&(K)&=(0,2,4),\nonumber\\
+ w_1&=(\tfrac{45}{2},9\sqrt{1365},2\sqrt{273}),&&\nonumber\\
+ J_2&=\tfrac72,&(K)&=(2,4),\nonumber\\
+ w_2&=(\tfrac{16\sqrt{33}}{11},1),&&\nonumber\\
+ J_3&=\tfrac92,&(K)&=(2,4),\nonumber\\
+ w_3&=(-\tfrac{2\sqrt{33}}{11},1),&&\nonumber\\
+ J_4&=\tfrac{11}{2},&(K)&=(4,6,8),\nonumber\\
+ w_4&=(\tfrac{43\sqrt{149226}}{244188},
+        \tfrac{\sqrt{16302}}{114},1),&&
+\end{align}
+and three scalar terms with ranks $(K_1,K_2,K_3)=(3,4,6)$:
+\begin{align}
+ h_{1,3M}&=\tfrac{18\sqrt{26}}{13}G^{(2)}_{3M}+G^{(4)}_{3M},\\
+ h_{2,4M}&=G^{(2)}_{4M},\\
+ h_{3,6M}&=-6\sqrt3\,G^{(2)}_{6M}+G^{(4)}_{6M}.
+\end{align}
+Direct expansion gives the polynomial identity
+\begin{equation}\label{eq:spin52_P4_certificate}
+ \boxed{\begin{aligned} S^2(\tfrac18-S)
+ &=\sum_{r=1}^{4}c_r\mathcal L_{J_r}(w_r)
+  +\sum_{r=1}^{3}d_r\mathcal C_{K_r}(h_r)\ge0.\end{aligned}}
+\end{equation}
+with the following positive rational coefficients:
+\begin{center}
+\renewcommand{\arraystretch}{2.1}
+\begin{tabular}{c@{\qquad}c}
+$c_1=\dfrac{1094426}{4929645591}$&
+$c_2=\dfrac{131329055}{252802338}$\\
+$c_3=\dfrac{3843346489}{252802338}$&
+$c_4=\dfrac{607184206272}{6025122389}$\\
+$d_1=\dfrac{2002382525}{14156930928}$&
+$d_2=\dfrac{12329190117}{337069784}$\\
+\multicolumn{2}{c}{$d_3=\dfrac{162694181}{758407014}$}
+\end{tabular}
+\end{center}
+For $S>0$, division by $S^2$ yields $P\le1/6+1/8=7/24$;
+the case $S=0$ is the MMS. Equation~\eqref{eq:rank4_matrix} attains
+equality, so $P_{\max}(5,4)=7/24$. Equivalently, every Hermitian
+rank-five spin-$5/2$ operator satisfies
+$\Tr X^2\le(9/2)\|X\|_\infty^2$.
+The verification script \texttt{prove\_purity4\_sixth.py} checks every
+coefficient of Eq.~\eqref{eq:spin52_P4_certificate} in exact rational
+arithmetic after substituting $x_m=\sqrt{\binom{10}{5+m}}\,y_m$.
+This verification expands the seven terms directly and does not use
+an optimization solver or a numerical positivity test.
+
+\section{Methods, literature, and reproducibility}
+The certificates use polynomial positivity and symmetry reduction. A matrix of the form $F\rho F^\dagger$ is positive whenever $\rho\ge0$; multiplying the physical positivity constraint by polynomial features gives a localizing matrix. A positive combination of such terms can bound a polynomial objective. The broader moment and sum-of-squares frameworks are developed in Refs.~\cite{Parrilo2000,Lasserre2001}. We use explicit finite identities here, without requiring an asymptotic convergence argument for a hierarchy.
+
+Rotation averaging and coupled-spin blocks reduce the coefficient problem to invariant sectors. The representation-theoretic background is Ref.~\cite{Varshalovich1988}; the general relation between symmetry, invariant sums of squares, and semidefinite reduction is discussed in Ref.~\cite{GatermannParrilo2004}. The particular spin-$5/2$ blocks and coefficients are specified above and in the repository data. The literature references provide the general methods, not the specific optimum values or certificates supplied here.
+
+Numerical searches were used during discovery to suggest optimizers and certificate coefficients. The final proof consists of exact identities and exact positivity arguments. The transition from approximate semidefinite solutions to rational certificates is related to the numerical--symbolic strategy of Ref.~\cite{PeyrlParrilo2008}; the present verifier does not assume that a solver's residual or approximate positive eigenvalues establish a theorem. Earlier exploratory calculations are not needed to verify the published certificates.
+
+The order-two verifier checks complete invariant bases, derives the coupled features, regenerates every localizing coefficient matrix in its default mode, and proves positivity through rational congruences and strict diagonal dominance. The order-three verifier derives the witness expectations and their exact cancellation. The order-four verifier directly expands all seven nonnegative terms. Independent numerical checks on complex states exercise separate implementations, but do not replace the exact proofs. A detailed explanation is provided in \texttt{METHODS.md}.
+
+From the repository root, install the dependencies listed in \texttt{requirements.txt}, then run
+\begin{verbatim}
+python3 verify_all.py
+\end{verbatim}
+Only Python, NumPy, and SymPy are required; no optimization solver is used. Do not enable Python's \texttt{-O} option, which disables assertions. The optional flag \texttt{--quick} skips only regeneration of the cached order-two coefficient matrices. For a full reproduction, use the default command. Add \texttt{--numerical-crosschecks} to run the supplementary direct complex-state tests. The output in \texttt{verification/} records the checked distribution and runtime versions.
+
+\begin{thebibliography}{9}
+\bibitem{Denis2026} J. Denis, T. Lacaille, J. Martin, and E. Serrano-Ens\'astiga, \emph{Total, quantum, and classical measures of anticoherence for mixed spin states}, \href{https://arxiv.org/abs/2605.29436}{arXiv:2605.29436} (2026).
+\bibitem{BaguetteMartin2017} D. Baguette and J. Martin, \emph{Anticoherence measures for pure spin states}, Phys. Rev. A \textbf{96}, 032304 (2017), \href{https://doi.org/10.1103/PhysRevA.96.032304}{doi:10.1103/PhysRevA.96.032304}.
+\bibitem{Varshalovich1988} D. A. Varshalovich, A. N. Moskalev, and V. K. Khersonskii, \emph{Quantum Theory of Angular Momentum} (World Scientific, 1988), \href{https://doi.org/10.1142/0270}{doi:10.1142/0270}.
+\bibitem{Parrilo2000} P. A. Parrilo, \emph{Structured Semidefinite Programs and Semialgebraic Geometry Methods in Robustness and Optimization}, Ph.D. thesis, California Institute of Technology (2000), \href{https://doi.org/10.7907/2K6Y-CH43}{doi:10.7907/2K6Y-CH43}.
+\bibitem{Lasserre2001} J. B. Lasserre, \emph{Global optimization with polynomials and the problem of moments}, SIAM J. Optim. \textbf{11}, 796--817 (2001), \href{https://doi.org/10.1137/S1052623400366802}{doi:10.1137/S1052623400366802}.
+\bibitem{GatermannParrilo2004} K. Gatermann and P. A. Parrilo, \emph{Symmetry groups, semidefinite programs, and sums of squares}, J. Pure Appl. Algebra \textbf{192}, 95--128 (2004), \href{https://doi.org/10.1016/j.jpaa.2003.12.011}{doi:10.1016/j.jpaa.2003.12.011}.
+\bibitem{PeyrlParrilo2008} H. Peyrl and P. A. Parrilo, \emph{Computing sum of squares decompositions with rational coefficients}, Theor. Comput. Sci. \textbf{409}, 269--281 (2008), \href{https://doi.org/10.1016/j.tcs.2008.09.025}{doi:10.1016/j.tcs.2008.09.025}.
+\end{thebibliography}
+\end{document}
