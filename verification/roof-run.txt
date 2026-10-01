@@ -1,0 +1,33 @@
+
+VERIFY convex_roofs/verify_support.py
+Second-order complex polynomial rebuilt from the physical five-qubit state.
+First-order polynomial and phase bound rebuilt from exact spin operators.
+Orthonormal support, populations, and five-state orbit averaging verified.
+
+VERIFY convex_roofs/verify_q1.py
+Certified positive LDL pivots: [2.7031048371627038, 0.03206909916166364, 0.022932658940231724, 0.04338518285277074]
+Certified positive LDL pivots: [0.5, 0.03747398312790007, 0.6842532785007276]
+Exact polynomial identity, ensemble equality, and global positivity verified.
+q1 = (694 - 4 sqrt(22) - 2 sqrt(6071 + 448 sqrt(22)))/675
+q1 approximately 0.7324988430268988
+
+VERIFY convex_roofs/verify_q2_algebraic.py
+Exact SOS identity modulo the eight contact equations verified.
+Complex phases are bounded by the real-amplitude polynomial exactly.
+coarse root certified; contraction <= 2.2261000907825447e-07 selfmap error <= 4.8988773572284396e-11 radius 1e-09
+LDL lower bounds [825.0, 7305.9952985817445, 41890.260209932065, 40.282508281662345, 1358.8206919303993, 620.4476269395583]
+Positive ensemble weights [0.16106442802635118, 0.2840276464563702, 0.1324609139759534, 0.42244700921644873]
+fine root certified; contraction <= 2.2261000897412433e-58 selfmap error <= 4.2407345100413847e-66 radius 1e-60
+LDL lower bounds [825.0, 7305.995404021981, 41890.26113792809, 40.282641882802274, 1358.8230812559648, 620.4643258023427]
+Positive ensemble weights [0.16106442865739526, 0.28402764660551744, 0.1324609148515967, 0.4224470098854906]
+GLOBAL EXACT q2 = 171/400 + (u+4v)/12, at the uniquely isolated algebraic root.
+q2 = 0.67058403099168934995011726179308895355603658201249098616267067
+
+VERIFY convex_roofs/verify_q2_reduced.py
+Exact quartic-discriminant identity verified; degree in A is 22.
+Exact amplitude elimination verified.
+Unique reduced root certified: contraction <= 0.00019211338191573043 selfmap bound <= 2.2949813688666903e-11
+Its box contains the projection of the certified original root.
+Quartic-root regularity verified: same globally proved q2, with four unknowns.
+
+All exact convex-roof checks passed in 10.0 seconds.

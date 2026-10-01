@@ -3,5 +3,9 @@
   "numpy": "1.25.2",
   "sympy": "1.12",
   "verification_command": "python3 verify_all.py --numerical-crosschecks",
-  "date": "2026-10-01"
+  "date": "2026-10-01",
+  "mpmath": "1.3.0",
+  "convex_roof_verification_command": "python3 verify_roofs.py",
+  "convex_roof_run_log": "roof-run.txt",
+  "full_run_scope": "The recorded full-run.txt covers the unchanged purity certificates; roof-run.txt covers the added convex-roof certificates."
 }
